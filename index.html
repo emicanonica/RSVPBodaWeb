@@ -13,15 +13,15 @@
   <body>
     <!-- Capa del Sobre Animado -->
     <div id="envelope-overlay" class="envelope-overlay">
+      <div id="guest-container" class="envelope-front-text hidden">
+        <p class="guest-msg">¡Hola!</p>
+        <h3 id="guest-name" class="guest-name">Invitado</h3>
+        <p class="guest-invitation">Tenemos una invitación para vos</p>
+      </div>
       <div class="envelope">
         <div class="envelope-flap-top"></div>
         <div class="seal" id="wax-seal"><span class="seal-text">L & E</span></div>
         <div class="envelope-body">
-          <div class="envelope-front-text">
-            <p class="guest-msg">¡Hola!</p>
-            <h3 id="guest-name" class="guest-name">Invitado</h3>
-            <p class="guest-invitation">Tenemos una invitación para vos</p>
-          </div>
           <div class="envelope-instr">Haz clic en el sello para abrir</div>
         </div>
       </div>
@@ -159,7 +159,7 @@
         <div class="section-decor mid-right decor-md"><svg><use href="#branch-ru"/></svg></div>
         <h2 class="section-title rsvp-title">Asistencia</h2>
         <form class="rsvp-form" id="rsvpForm">
-          <div class="form-group"><label>Nombre y Apellido</label><input type="text" name="nombre_apellido" required></div>
+          <div class="form-group"><label>Nombre y Apellido</label><input type="text" id="form-name" name="nombre_apellido" required></div>
           <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
           <div class="form-group"><label>DNI</label><input type="text" name="dni" required></div>
           <div class="form-group"><label>Restricción Alimenticia</label><input type="text" name="restriccion_alimenticia"></div>

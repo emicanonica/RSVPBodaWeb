@@ -42,10 +42,12 @@ h1, h2, h3, .names {
   height: 100vh;
   background-color: #e5e0d3; /* Slightly darker cream for the background */
   display: flex;
+  flex-direction: column; /* Apilar arriba del sobre */
   justify-content: center;
   align-items: center;
   z-index: 1000;
   transition: opacity 1s ease-in-out;
+  gap: 3rem; /* Espacio entre el texto y el sobre */
 }
 
 .envelope {
@@ -121,8 +123,17 @@ h1, h2, h3, .names {
 
 .envelope-front-text {
   text-align: center;
-  z-index: 5;
   color: var(--primary-color);
+  animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none !important;
 }
 
 .guest-msg {

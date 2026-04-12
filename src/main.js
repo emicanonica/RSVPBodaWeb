@@ -11,13 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainContent = document.getElementById('main-content');
   const envelopeFlap = document.querySelector('.envelope-flap-top');
   const guestNameContainer = document.getElementById('guest-name');
+  const guestContainer = document.getElementById('guest-container');
+  const formNameInput = document.getElementById('form-name');
 
   // Parsear Parámetro de Invitado (URL ?invitado=Nombre)
   const urlParams = new URLSearchParams(window.location.search);
-  const guestName = urlParams.get('invitado') || 'Familia'; // Valor por defecto
+  const guestName = urlParams.get('invitado');
 
-  if (guestNameContainer) {
-    guestNameContainer.innerText = guestName;
+  if (guestName) {
+    if (guestNameContainer) guestNameContainer.innerText = guestName;
+    if (guestContainer) guestContainer.classList.remove('hidden');
+    if (formNameInput) formNameInput.value = guestName;
   }
 
   waxSeal.addEventListener('click', () => {
