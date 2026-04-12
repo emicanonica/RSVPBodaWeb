@@ -4,209 +4,173 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lu y Emi - Nos Casamos</title>
+    <title>Lucia y Emilio - Nos Casamos</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- Capa del Sobre Animado -->
     <div id="envelope-overlay" class="envelope-overlay">
       <div class="envelope">
         <div class="envelope-flap-top"></div>
-        <div class="seal" id="wax-seal">
-            <span class="seal-text">L & E</span>
-        </div>
+        <div class="seal" id="wax-seal"><span class="seal-text">L & E</span></div>
         <div class="envelope-body">
           <div class="envelope-instr">Haz clic en el sello para abrir</div>
         </div>
       </div>
     </div>
 
-    <!-- Contenido Principal -->
+    <!-- Símbolos Ultra-Frondosos -->
+    <svg style="display:none;">
+      <symbol id="branch-lu" viewBox="0 0 200 200">
+        <path d="M0 200 Q 50 100 200 0" stroke="#708238" stroke-width="4" fill="none" />
+        <path d="M0 180 Q 30 140 70 160 Q 50 200 0 180" fill="#708238" />
+        <circle cx="100" cy="130" r="3" fill="#fff" opacity="0.9" />
+        <path d="M40 130 Q 60 110 80 130" fill="#FFFDD0" /> <path d="M120 80 Q 140 60 160 80" fill="#FFC0CB" />
+        <circle cx="80" cy="150" r="1.5" fill="#c5a059" opacity="0.6" />
+      </symbol>
+      <symbol id="branch-ld" viewBox="0 0 200 200">
+        <path d="M0 0 Q 50 100 200 200" stroke="#708238" stroke-width="4" fill="none" />
+        <circle cx="90" cy="70" r="3" fill="#fff" />
+        <path d="M40 70 Q 60 90 80 70" fill="#FFFDD0" /> <path d="M120 120 Q 140 140 160 120" fill="#FFC0CB" />
+      </symbol>
+      <symbol id="branch-ru" viewBox="0 0 200 200">
+        <path d="M200 200 Q 150 100 0 0" stroke="#708238" stroke-width="4" fill="none" />
+        <circle cx="110" cy="130" r="3" fill="#fff" />
+        <path d="M160 130 Q 140 110 120 130" fill="#FFFDD0" /> <path d="M80 80 Q 60 60 40 80" fill="#FFC0CB" />
+      </symbol>
+      <symbol id="branch-rd" viewBox="0 0 200 200">
+        <path d="M200 0 Q 150 100 0 200" stroke="#708238" stroke-width="4" fill="none" />
+        <circle cx="110" cy="70" r="3" fill="#fff" />
+        <path d="M160 70 Q 140 90 120 70" fill="#FFFDD0" /> <path d="M80 120 Q 60 140 40 120" fill="#FFC0CB" />
+      </symbol>
+    </svg>
+
     <main id="main-content" class="hidden-content">
-      <!-- Guardas Decorativas Botánicas -->
-      <div class="corner-decor top-left">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-          <!-- Rama simple estilizda -->
-          <path d="M 0 0 Q 80 40 180 180" stroke="var(--primary-color)" stroke-width="3" fill="none" class="stem" />
-          <path d="M 30 15 Q 100 0 80 50 Q 20 60 30 15" fill="var(--primary-color)" opacity="0.6" />
-          <path d="M 15 45 Q 60 20 60 80 Q 0 90 15 45" fill="var(--primary-color)" opacity="0.8" />
-          <path d="M 80 60 Q 140 10 140 90 Q 70 90 80 60" fill="var(--primary-color)" opacity="0.5" />
-          <path d="M 60 110 Q 150 40 140 120 Q 50 140 60 110" fill="var(--primary-color)" opacity="0.7" />
-        </svg>
-      </div>
-      <div class="corner-decor bottom-right">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-          <!-- Rama invertida -->
-          <path d="M 200 200 Q 120 160 20 20" stroke="var(--primary-color)" stroke-width="3" fill="none" class="stem" />
-          <path d="M 170 185 Q 100 200 120 150 Q 180 140 170 185" fill="var(--primary-color)" opacity="0.6" />
-          <path d="M 185 155 Q 140 180 140 120 Q 200 110 185 155" fill="var(--primary-color)" opacity="0.8" />
-          <path d="M 120 140 Q 60 190 60 110 Q 130 110 120 140" fill="var(--primary-color)" opacity="0.5" />
-          <path d="M 140 90 Q 50 160 60 80 Q 150 60 140 90" fill="var(--primary-color)" opacity="0.7" />
-        </svg>
-      </div>
-
-      <!-- Sección de Bienvenida -->
+      <!-- 1. BIENVENIDA -->
       <section class="section hero-section" id="welcome">
-        <div class="section-decor decor-flower-left">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- Tallo -->
-            <path d="M50 50 Q 50 80 40 100" stroke="var(--primary-color)" stroke-width="2" fill="none"/>
-            <!-- Pétalos -->
-            <circle cx="50" cy="35" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="65" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="35" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="65" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
-          </svg>
-        </div>
+        <div class="butterfly bf-1"><svg viewBox="0 0 50 50"><path d="M25 25 L10 5 Q15 25 25 30 Q35 25 40 5 Z" /><path d="M25 25 L10 45 Q15 25 25 20 Q35 25 40 45 Z" /></svg></div>
+        <div class="section-decor top-left"><svg><use href="#branch-lu"/></svg></div>
+        <div class="section-decor mid-right"><svg><use href="#branch-ru"/></svg></div>
         <div class="hero-content">
-          <h1 class="names">Lu y Emi</h1>
-          <h2 class="subtitle">¡Nos Casamos!</h2>
-          <p class="scroll-prompt">Desliza para más detalles ↓</p>
-        </div>
-        <a href="#info" class="scroll-down-btn">↓</a>
-      </section>
-
-      <!-- Panel de Información -->
-      <section class="section info-section" id="info">
-        <div class="section-decor decor-flower-right">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 50 Q 50 80 40 100" stroke="var(--primary-color)" stroke-width="2" fill="none"/>
-            <circle cx="50" cy="35" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="65" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="35" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="65" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
-          </svg>
-        </div>
-        <div class="card">
-          <h2 class="section-title">Cuándo y Dónde</h2>
-          <div class="info-details">
-            <p class="date">Martes 20, Octubre 2026</p>
-            <p class="time">18:00 hs</p>
-            <p class="venue">Estancia El Ensueño</p>
-            <p class="address">Ruta 2 Km 55, Buenos Aires</p>
+          <p style="font-family: var(--font-sans); text-transform: lowercase; letter-spacing: 5px; margin-bottom: 2rem; opacity: 0.8;">nos casamos</p>
+          <h1 class="names" style="font-size: 6rem; margin-bottom: 1.5rem;">Lucia y Emilio</h1>
+          <div style="border-top: 1px solid #000; width: 300px; margin: 1.5rem auto; position: relative; opacity: 0.3;">
+            <div style="position: absolute; left: 50%; height: 40px; width: 1px; background: #000; top: -20px;"></div>
           </div>
+          <p style="font-family: var(--font-serif); font-size: 2rem; letter-spacing: 2px;">20 de Noviembre | 18 hs</p>
+          <p style="font-family: var(--font-cursive); font-size: 1.8rem; margin-top: 2rem;">Nos encantaría que formes parte de este día tan especial para nosotros</p>
         </div>
         <a href="#countdown" class="scroll-down-btn">↓</a>
       </section>
 
-      <!-- Cuenta Regresiva -->
-      <section class="section countdown-section" id="countdown">
-        <div class="section-decor decor-branch-right">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <!-- Rama hojaldrada hacia la derecha -->
-            <path d="M 200 100 Q 100 140 0 100" stroke="var(--primary-color)" stroke-width="2" fill="none" class="stem" />
-            <path d="M 150 120 Q 150 80 120 80 Q 120 120 150 120" fill="var(--primary-color)" opacity="0.6" />
-            <path d="M 80 125 Q 90 80 50 70 Q 40 110 80 125" fill="var(--primary-color)" opacity="0.5" />
-            <path d="M 30 105 Q 20 70 0 80 Q 0 110 30 105" fill="var(--primary-color)" opacity="0.7" />
-          </svg>
-        </div>
+      <!-- 2. CUENTA REGRESIVA -->
+      <section class="section countdown-section bg-cream" id="countdown">
+        <div class="section-decor mid-left decor-md"><svg><use href="#branch-lu"/></svg></div>
+        <div class="section-decor top-right decor-sm"><svg><use href="#branch-ru"/></svg></div>
         <h2 class="section-title">Faltan</h2>
         <div class="counter" id="timer">
-          <div class="time-box"><span id="days">00</span><p>Días</p></div>
-          <div class="time-box"><span id="hours">00</span><p>Horas</p></div>
-          <div class="time-box"><span id="minutes">00</span><p>Minutos</p></div>
-          <div class="time-box"><span id="seconds">00</span><p>Segundos</p></div>
+          <div class="time-box"><span id="days">00</span><p>Días</p></div><div class="time-box"><span id="hours">00</span><p>Horas</p></div>
+          <div class="time-box"><span id="minutes">00</span><p>Minutos</p></div><div class="time-box"><span id="seconds">00</span><p>Segundos</p></div>
         </div>
-        <a href="#logistics" class="scroll-down-btn">↓</a>
+        <a href="#location" class="scroll-down-btn">↓</a>
       </section>
 
-      <!-- Logística (Mapa y Dress Code) -->
-      <section class="section logistics-section" id="logistics">
-        <div class="section-decor decor-branch-left">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <!-- Rama izquierda -->
-            <path d="M 0 100 Q 100 140 200 100" stroke="var(--primary-color)" stroke-width="2" fill="none" />
-            <path d="M 50 120 Q 50 80 80 80 Q 80 120 50 120" fill="var(--primary-color)" opacity="0.6" />
-            <path d="M 120 125 Q 110 80 150 70 Q 160 110 120 125" fill="var(--primary-color)" opacity="0.5" />
-            <path d="M 170 105 Q 180 70 200 80 Q 200 110 170 105" fill="var(--primary-color)" opacity="0.7" />
-          </svg>
-        </div>
+      <!-- 3. UBICACIÓN -->
+      <section class="section logistics-section" id="location">
+        <div class="section-decor mid-left"><svg><use href="#branch-lu"/></svg></div>
+        <div class="section-decor bottom-right"><svg><use href="#branch-ru"/></svg></div>
         <div class="card map-card">
-          <h2 class="section-title">Cómo Llegar</h2>
-          <p>Te esperamos para celebrar nuestro amor.</p>
-          <a href="https://maps.google.com" target="_blank" class="btn primary-btn">Ver en Google Maps</a>
+          <img src="/assets/pepe_reina_logo.jpg" alt="Logo" style="width: 100px; margin-bottom: 1rem;" />
+          <h2 class="section-title">Ubicación</h2>
+          <p class="venue" style="font-size: 1.5rem; font-family: var(--font-serif); font-weight: bold;">Quinta Pepe Reina</p>
+          <p class="address">Esq. Calle 430 Bis, Diag. 434, Arturo Seguí</p>
+          <img src="/assets/mapa.png" alt="Mapa" class="map-image" />
+          <a href="https://maps.app.goo.gl/KBcdRvzkon3bT3Uq5" target="_blank" class="btn primary-btn">Ver en Google Maps</a>
         </div>
+        <a href="#dresscode" class="scroll-down-btn">↓</a>
+      </section>
+
+      <!-- 4. DRESS CODE -->
+      <section class="section logistics-section bg-cream" id="dresscode">
+        <div class="section-decor top-left decor-sm"><svg><use href="#branch-lu"/></svg></div>
+        <div class="section-decor mid-right decor-md"><svg><use href="#branch-rd"/></svg></div>
         <div class="card dress-card">
           <h2 class="section-title">Dress Code</h2>
-          <p>Elegante Sport</p>
-          <a href="https://pinterest.com" target="_blank" class="btn secondary-btn">Ver inspiración en Pinterest</a>
+          <p style="font-family: var(--font-serif); font-size: 1.4rem;">Elegante Sport</p>
+          <img src="/assets/dresscode.png" alt="Dresscode" class="dresscode-image" />
+          <a href="https://pin.it/iKIKPoPL1" target="_blank" class="btn secondary-btn">Ver inspiración</a>
         </div>
         <a href="#notices" class="scroll-down-btn">↓</a>
       </section>
 
-      <!-- Avisos y Regalos -->
+      <!-- 5. ACLARACIONES -->
       <section class="section notices-section" id="notices">
-        <div class="section-decor decor-flower-left">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 50 Q 50 80 40 100" stroke="var(--primary-color)" stroke-width="2" fill="none"/>
-            <circle cx="50" cy="35" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="65" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="35" cy="50" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="65" r="10" opacity="0.7" fill="var(--primary-color)"/>
-            <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
-          </svg>
-        </div>
+        <div class="section-decor bottom-left"><svg><use href="#branch-ld"/></svg></div>
         <div class="card notices-card">
-          <h2 class="section-title">Aclaraciones Importantes</h2>
-          <p>Para nosotros es muy importante que puedan disfrutar y relajarse sin preocupaciones, por eso hemos decidido que nuestra boda sea <strong>Solo Adultos</strong>. (No menores de edad).</p>
+          <h2 class="section-title">Aclaraciones</h2>
+          <ul class="notices-list">
+            <li>El evento es al aire libre.</li>
+            <li>No va a haber menores de edad.</li>
+            <li>Invitaciones personales (Sin +1).</li>
+          </ul>
         </div>
-        
-        <div class="card gifts-card mt-2">
+        <a href="#gifts" class="scroll-down-btn">↓</a>
+      </section>
+
+      <!-- 6. REGALOS -->
+      <section class="section gifts-section bg-cream" id="gifts">
+        <div class="section-decor mid-right"><svg><use href="#branch-ru"/></svg></div>
+        <div class="card gifts-card">
           <h2 class="section-title">Regalos</h2>
-          <p>Su presencia es nuestro mayor regalo. Si querés regalarnos algo, preferimos dinero para nuestra luna de miel.</p>
+          <p>Preferimos dinero para ayudarnos con nuestra luna de miel.</p>
           <div class="bank-details">
             <p><strong>Alias:</strong> LUYEMI.BODA</p>
-            <p><strong>CBU:</strong> 0000000000000000000000</p>
+            <p><strong>CBU:</strong> 0000000000310000000000</p>
+          </div>
+        </div>
+        <a href="#social" class="scroll-down-btn">↓</a>
+      </section>
+
+      <!-- 7. REDES -->
+      <section class="section social-section" id="social">
+        <div class="section-decor mid-left"><svg><use href="#branch-lu"/></svg></div>
+        <div class="card social-card" style="border: 1px dashed var(--primary-color);">
+          <h2 class="section-title">Nuestras Redes</h2>
+          <div class="instagram-box large" style="background: none; border: none;">
+             <a href="https://www.instagram.com/luyemiboda?..." target="_blank" class="ig-link main-ig">@luyemiboda</a>
+             <img src="/assets/wedding_instagram_qr.png" alt="QR" class="qr-image main-qr" />
+             <p class="ig-hint">Escaneá para seguirnos</p>
           </div>
         </div>
         <a href="#rsvp" class="scroll-down-btn">↓</a>
       </section>
 
-      <!-- Formulario RSVP -->
-      <section class="section rsvp-section" id="rsvp">
-        <h2 class="section-title rsvp-title">Confirmar Asistencia</h2>
-        <p class="rsvp-subtitle">Por favor confirma antes del 1° de Septiembre de 2026</p>
-        
+      <!-- 8. RSVP -->
+      <section class="section rsvp-section bg-cream" id="rsvp">
+        <div class="section-decor bottom-left decor-sm"><svg><use href="#branch-ld"/></svg></div>
+        <div class="section-decor mid-right decor-md"><svg><use href="#branch-ru"/></svg></div>
+        <h2 class="section-title rsvp-title">Asistencia</h2>
         <form class="rsvp-form" id="rsvpForm">
-          <div class="form-group">
-            <label for="name">Nombre y Apellido</label>
-            <input type="text" id="name" name="nombre_apellido" required placeholder="Ej: Juan Pérez">
-          </div>
-          <div class="form-group">
-            <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
-          </div>
-          <div class="form-group">
-            <label for="dni">N° de Documento</label>
-            <input type="text" id="dni" name="dni" required placeholder="Sin puntos ni espacios">
-          </div>
-          <div class="form-group">
-            <label for="food">Restricción Alimenticia <span class="optional">(Opcional)</span></label>
-            <input type="text" id="food" name="restriccion_alimenticia" placeholder="Ej: Celíaco, Vegano">
-          </div>
+          <div class="form-group"><label>Nombre y Apellido</label><input type="text" name="nombre_apellido" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+          <div class="form-group"><label>DNI</label><input type="text" name="dni" required></div>
+          <div class="form-group"><label>Restricción Alimenticia</label><input type="text" name="restriccion_alimenticia"></div>
           <div class="form-group radio-group">
             <p class="radio-label">¿Asistes?</p>
             <div class="radios">
-              <label class="radio-btn"><input type="radio" name="asistencia" value="Si" required> ¡Sí, ahí estaré!</label>
-              <label class="radio-btn"><input type="radio" name="asistencia" value="No" required> No podré asistir</label>
+              <label class="radio-btn"><input type="radio" name="asistencia" value="Si" required> ¡Sí!</label>
+              <label class="radio-btn"><input type="radio" name="asistencia" value="No" required> No</label>
             </div>
           </div>
           <button type="submit" class="btn primary-btn submit-btn" id="submitBtn">Confirmar</button>
-          <p id="form-message" class="form-message hidden"></p>
         </form>
       </section>
 
-      <footer>
-        <p class="footer-names">Lu & Emi</p>
-        <p class="footer-date">20.10.2026</p>
-      </footer>
+      <footer><p class="footer-names">Lucia & Emilio</p><p class="footer-date">20.11.2026</p></footer>
     </main>
-
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

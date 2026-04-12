@@ -1,8 +1,8 @@
 :root {
   --primary-color: #708238; /* Verde Oliva */
-  --bg-color: #FDFBF7;      /* Crema */
-  --text-color: #2C2C2C;    /* Carbón */
-  --accent-color: #D4AF37;  /* Dorado */
+  --bg-color: #FFFFFF;      /* Blanco Puro como la tarjeta */
+  --text-color: #1a1a1a;    /* Casi negro para más contraste */
+  --accent-color: #c5a059;  /* Dorado más apagado/elegante */
   --font-cursive: 'Great Vibes', cursive;
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Cormorant Garamond', serif;
@@ -156,6 +156,10 @@ h1, h2, h3, .names {
   position: relative; /* Agregado para contener guardas absolutas */
 }
 
+.bg-cream {
+  background-color: #FDFBF7 !important; /* El color crema previo */
+}
+
 /* Guardas Decorativas / Botanical Corners */
 .corner-decor {
   position: absolute; /* Using absolute inside a relative container or body */
@@ -186,44 +190,98 @@ h1, h2, h3, .names {
 /* Decoraciones en Medio de Secciones / Flowers */
 .section-decor {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 500px;
+  height: 500px;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.8;
+  overflow: visible;
 }
 
-.decor-flower-left {
-  top: 10%;
-  left: -20px;
-  animation: floatBranch 7s ease-in-out infinite alternate;
+.section-decor svg {
+  width: 100%;
+  height: 100%;
 }
 
-.decor-flower-right {
-  top: 50%;
-  right: -20px;
-  animation: floatBranch 5s ease-in-out infinite alternate;
+/* Animación y origen automático por lado */
+.top-left, .mid-left, .bottom-left {
+  left: -100px;
+  transform-origin: left center;
+  animation: floatBranchLeft 12s ease-in-out infinite alternate;
 }
 
-.decor-branch-right {
-  bottom: 20%;
-  right: -30px;
-  animation: floatBranch 6s ease-in-out infinite alternate-reverse;
+.top-right, .mid-right, .bottom-right {
+  right: -100px;
+  transform-origin: right center;
+  animation: floatBranchRight 12s ease-in-out infinite alternate-reverse;
 }
 
-.decor-branch-left {
-  top: 20%;
-  left: -30px;
-  animation: floatBranch 6s ease-in-out infinite alternate-reverse;
+@keyframes floatBranchLeft {
+  0% { transform: rotate(-2deg) translateY(0); }
+  100% { transform: rotate(3deg) translateY(10px); }
 }
 
-.decor-flower-bottom {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 100px;
-  opacity: 0.4;
+@keyframes floatBranchRight {
+  0% { transform: rotate(2deg) translateY(0); }
+  100% { transform: rotate(-3deg) translateY(10px); }
+}
+
+/* Posiciones verticales */
+.top-left, .top-right { top: -50px; }
+.mid-left, .mid-right { top: 35%; }
+.bottom-left, .bottom-right { bottom: -50px; }
+
+/* Variaciones de escala para evitar monotonía */
+.decor-sm { width: 300px; height: 300px; }
+.decor-md { width: 400px; height: 400px; }
+
+@media (max-width: 600px) {
+  .section-decor {
+    width: 280px; /* Más chicas en móvil para no tapar el texto */
+    height: 280px;
+  }
+}
+
+/* Mariposas Celestes Claritas */
+.butterfly {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.8; /* Menos sólida */
+}
+
+.butterfly svg {
+  fill: #B0E2FF; /* Celeste más clarito */
+  filter: blur(0.5px) drop-shadow(0 0 3px rgba(176, 226, 255, 0.4));
+  animation: flutter 0.15s infinite alternate;
+}
+
+@keyframes flutter {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0.5); }
+}
+
+.bf-1 { top: 15%; left: 5%; animation: flyAround 18s linear infinite; }
+.bf-2 { top: 45%; right: 10%; animation: flyAround 22s linear infinite reverse; }
+.bf-3 { bottom: 20%; left: 15%; animation: flyAround 20s linear infinite; }
+.bf-4 { top: 70%; right: 5%; animation: flyAround 25s linear infinite; animation-delay: -5s; }
+.bf-5 { bottom: 40%; left: 8%; animation: flyAround 15s linear infinite reverse; animation-delay: -2s; }
+.bf-6 { top: 10%; right: 20%; animation: flyAround 30s linear infinite; animation-delay: -10s; }
+
+@keyframes flyAround {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(60px, -40px) rotate(15deg) scale(1.1); }
+  50% { transform: translate(120px, 0) rotate(0deg) scale(1); }
+  75% { transform: translate(60px, 40px) rotate(-15deg) scale(0.9); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+
+/* Destellos dorados */
+.sparkle {
+  fill: var(--accent-color);
+  opacity: 0.6;
 }
 
 /* Flechas de Navegación */
@@ -269,8 +327,25 @@ h1, h2, h3, .names {
 .names {
   font-size: 5rem;
   color: var(--primary-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem; /* changed from 0.5 */
   line-height: 1;
+}
+
+.banderin {
+  position: relative;
+  display: inline-block;
+  padding: 0.8rem 3rem;
+  background-color: var(--primary-color);
+  margin-bottom: 3rem;
+  /* Forma de banderín rectangular con puntas cortadas o en pico */
+  clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.banderin .subtitle {
+  color: var(--bg-color);
+  margin-bottom: 0;
+  font-size: 2.2rem;
 }
 
 .subtitle {
@@ -324,6 +399,93 @@ h1, h2, h3, .names {
   font-weight: 600;
   font-size: 1.5rem;
   color: var(--primary-color);
+}
+
+.map-image, .dresscode-image {
+  width: 100%;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  display: block;
+}
+
+.warning-text {
+  font-size: 0.9rem;
+  color: #856404;
+  background-color: #fff3cd;
+  border-left: 4px solid #ffeeba;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.notices-list {
+  text-align: left;
+  padding: 0 1rem;
+  list-style-position: inside;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.notices-list li {
+  margin-bottom: 1rem;
+  list-style-type: '🌿 ';
+}
+
+/* Instagram & QR Styles */
+.instagram-box {
+  background-color: #faf9f6;
+  border: 1px dashed var(--primary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.instagram-box.large {
+  padding: 2.5rem 2rem;
+  background-color: #fff;
+  border-style: solid;
+}
+
+.ig-link {
+  font-family: var(--font-serif);
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.ig-link:hover {
+  opacity: 0.7;
+}
+
+.main-ig {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.qr-image {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.main-qr {
+  width: 220px;
+}
+
+.ig-hint {
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
 }
 
 /* Countdown */

@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 3. Lógica de Cuenta Regresiva
-  const countDownDate = new Date("Oct 20, 2026 18:00:00").getTime();
+  const countDownDate = new Date("Nov 20, 2026 18:00:00").getTime();
   
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
