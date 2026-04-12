@@ -10,6 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const envelopeOverlay = document.getElementById('envelope-overlay');
   const mainContent = document.getElementById('main-content');
   const envelopeFlap = document.querySelector('.envelope-flap-top');
+  const guestNameContainer = document.getElementById('guest-name');
+
+  // Parsear Parámetro de Invitado (URL ?invitado=Nombre)
+  const urlParams = new URLSearchParams(window.location.search);
+  const guestName = urlParams.get('invitado') || 'Familia'; // Valor por defecto
+
+  if (guestNameContainer) {
+    guestNameContainer.innerText = guestName;
+  }
 
   waxSeal.addEventListener('click', () => {
     // Animación de romper el sello y abrir

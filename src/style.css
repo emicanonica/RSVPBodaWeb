@@ -119,13 +119,41 @@ h1, h2, h3, .names {
   user-select: none;
 }
 
-.envelope-instr {
-  position: absolute;
-  bottom: -40px;
+.envelope-front-text {
+  text-align: center;
+  z-index: 5;
+  color: var(--primary-color);
+}
+
+.guest-msg {
   font-family: var(--font-serif);
   font-size: 0.9rem;
-  color: #666;
-  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.guest-name {
+  font-family: var(--font-cursive);
+  font-size: 2.2rem;
+  margin: 0.5rem 0;
+  color: #1a1a1a;
+}
+
+.guest-invitation {
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.envelope-instr {
+  position: absolute;
+  bottom: 20px;
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  color: #888;
+  opacity: 0.6;
   animation: pulse 2s infinite;
 }
 
