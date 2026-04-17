@@ -14,9 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const guestContainer = document.getElementById('guest-container');
   const formNameInput = document.getElementById('form-name');
 
-  // Parsear Parámetro de Invitado (URL ?invitado=Nombre)
+  // Parsear Parámetro de Invitado (URL ?invitado=Nombre o ?v=Base64)
   const urlParams = new URLSearchParams(window.location.search);
-  const guestName = urlParams.get('invitado');
+  let guestName = urlParams.get('invitado');
+  const obfuscatedName = urlParams.get('v');
+
+  if (obfuscatedName) {
+    try {
+      // Decodificar Base64 (maneja acentos y caracteres especiales correctamente)
+      guestName = decodeURIComponent(escape(atob(obfuscatedName)));
+    } catch (e) {
+      console.warn("No se pudo decodificar el nombre ofuscado, intentando leer parámetro común.");
+    }
+  }
 
   if (guestName) {
     if (guestNameContainer) guestNameContainer.innerText = guestName;
@@ -113,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // URL DEL GOOGLE APPS SCRIPT ASOCIADA AL EXCEL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzt6iwHJPQwKbJ7IVKIodg7Qjlq80pKDbbKWlvhdVJkKbQOqAHKSR-9lQnrmeOBEDFzNQ/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwUmC3CGYYO6f4RK-Fr4UksGfFVwuAJZb1-LC1PtQa9DNxGhw3DbotLQs9wTIwGEomHrA/exec';
       
       const payload = new URLSearchParams(data); // Prepara para application/x-www-form-urlencoded
       
@@ -139,4 +149,45 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = false;
     }
   });
+
+  // 5. Copiar Alias al portapapeles
+  const copyBtn = document.getElementById('copy-alias');
+  const copyMsg = document.getElementById('copy-message');
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const alias = copyBtn.getAttribute('data-alias');
+      
+      // Función para copiar (con fallback para contextos no seguros/HTTP)
+      function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        } else {
+          // Fallback usando un textarea temporal
+          let textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          return new Promise((res, rej) => {
+            document.execCommand('copy') ? res() : rej();
+            textArea.remove();
+          });
+        }
+      }
+
+      copyToClipboard(alias).then(() => {
+        // Mostrar mensaje de éxito
+        copyMsg.style.opacity = '1';
+        setTimeout(() => {
+          copyMsg.style.opacity = '0';
+        }, 2000);
+      }).catch(err => {
+        console.error('Error al copiar:', err);
+      });
+    });
+  }
 });
