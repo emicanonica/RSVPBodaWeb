@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostrar contenido principal
         mainContent.classList.remove('hidden-content');
         gsap.to(mainContent, { autoAlpha: 1, duration: 1 });
-        
+
         // Iniciar animaciones de scroll después de abrir
         initScrollAnimations();
         window.scrollTo(0, 0); // Asegurar que empiece arriba
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach((el) => {
       // Add initial class
       el.classList.add('gsap-reveal');
-      
+
       gsap.to(el, {
         scrollTrigger: {
           trigger: el,
@@ -77,13 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Lógica de Cuenta Regresiva
   const countDownDate = new Date("Nov 20, 2026 18:00:00").getTime();
-  
+
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
   const minutesEl = document.getElementById('minutes');
   const secondsEl = document.getElementById('seconds');
 
-  const x = setInterval(function() {
+  const x = setInterval(function () {
     const now = new Date().getTime();
     const distance = countDownDate - now;
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   rsvpForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     // Estado de carga
     submitBtn.innerText = "Enviando...";
     submitBtn.disabled = true;
@@ -123,22 +123,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // URL DEL GOOGLE APPS SCRIPT ASOCIADA AL EXCEL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwUmC3CGYYO6f4RK-Fr4UksGfFVwuAJZb1-LC1PtQa9DNxGhw3DbotLQs9wTIwGEomHrA/exec';
-      
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxETZkHMbjrW6wNxN8-56Oxp9hp3bfAn_d6V7NlTEXM5dqkUf0samNLDmSZcZfPXEHB/exec';
+
       const payload = new URLSearchParams(data); // Prepara para application/x-www-form-urlencoded
-      
+
       // Llamada real y silenciosa al servidor (mode: no-cors evita bloqueos del lado del browser)
       await fetch(scriptURL, {
         method: 'POST',
         body: payload,
         mode: 'no-cors'
       });
-      
+
       formMessage.classList.remove('hidden', 'error');
       formMessage.classList.add('success');
       formMessage.innerText = "¡Gracias por confirmar! Tu respuesta ha sido guardada.";
       rsvpForm.reset();
-      
+
     } catch (error) {
       console.error('Error!', error.message);
       formMessage.classList.remove('hidden', 'success');
@@ -150,44 +150,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 5. Copiar Alias al portapapeles
-  const copyBtn = document.getElementById('copy-alias');
+  // 5. Copiar al portapapeles (Alias, CBU, etc.)
+  const copyableElements = document.querySelectorAll('.copyable');
   const copyMsg = document.getElementById('copy-message');
 
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      const alias = copyBtn.getAttribute('data-alias');
-      
-      // Función para copiar (con fallback para contextos no seguros/HTTP)
-      function copyToClipboard(text) {
-        if (navigator.clipboard && window.isSecureContext) {
-          return navigator.clipboard.writeText(text);
-        } else {
-          // Fallback usando un textarea temporal
-          let textArea = document.createElement("textarea");
-          textArea.value = text;
-          textArea.style.position = "fixed";
-          textArea.style.left = "-999999px";
-          textArea.style.top = "-999999px";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          return new Promise((res, rej) => {
-            document.execCommand('copy') ? res() : rej();
-            textArea.remove();
-          });
-        }
-      }
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      let textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      return new Promise((res, rej) => {
+        document.execCommand('copy') ? res() : rej();
+        textArea.remove();
+      });
+    }
+  }
 
-      copyToClipboard(alias).then(() => {
-        // Mostrar mensaje de éxito
-        copyMsg.style.opacity = '1';
-        setTimeout(() => {
-          copyMsg.style.opacity = '0';
-        }, 2000);
+  copyableElements.forEach(el => {
+    el.addEventListener('click', () => {
+      const text = el.getAttribute('data-copy');
+      copyToClipboard(text).then(() => {
+        if (copyMsg) {
+          copyMsg.style.opacity = '1';
+          setTimeout(() => {
+            copyMsg.style.opacity = '0';
+          }, 2000);
+        }
       }).catch(err => {
         console.error('Error al copiar:', err);
       });
     });
-  }
+  });
 });
