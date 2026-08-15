@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería de Recuerdos - Lucia y Emilio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="fotos-page">
+  <!-- Símbolos Botánicos SVG -->
+  <svg style="display:none;">
+    <symbol id="dense-branch-left" viewBox="0 0 250 250">
+      <path d="M0 250 Q 100 150 250 50" stroke="#708238" stroke-width="5" fill="none" />
+      <path d="M20 230 Q 50 190 90 220 Q 70 250 20 230" fill="#708238" />
+      <path d="M40 190 Q 80 150 120 180 Q 100 220 40 190" fill="#a4b494" opacity="0.8" />
+      <circle cx="95" cy="180" r="4" fill="#fff" opacity="0.9" />
+    </symbol>
+    <symbol id="dense-branch-right" viewBox="0 0 250 250">
+      <path d="M250 250 Q 150 150 0 50" stroke="#708238" stroke-width="5" fill="none" />
+      <path d="M230 230 Q 200 190 160 220 Q 180 250 230 230" fill="#708238" />
+      <path d="M210 190 Q 170 150 130 180 Q 150 220 210 190" fill="#a4b494" opacity="0.8" />
+    </symbol>
+  </svg>
+
+  <!-- Encabezado de Navegación -->
+  <header class="fotos-header">
+    <a href="/index.html" class="back-link">← Volver a la Invitación</a>
+    <div class="header-actions">
+      <button id="reload-gallery-btn" class="icon-btn" title="Recargar Galería">↻</button>
+      <button id="admin-trigger-btn" class="admin-trigger-btn" title="Panel de Moderación">🔒 Admin</button>
+    </div>
+  </header>
+
+  <main class="fotos-main">
+    <!-- Hero / Título de la Galería -->
+    <section class="fotos-hero">
+      <div class="section-decor top-left decor-sm"><svg>
+          <use href="#dense-branch-left" />
+        </svg></div>
+      <div class="section-decor top-right decor-sm"><svg>
+          <use href="#dense-branch-right" />
+        </svg></div>
+
+      <div class="golden-frame fotos-title-frame">
+        <div class="frame-corners"></div>
+        <p class="hero-tagline">recuerdos de nuestra boda</p>
+        <h1 class="names">Galería Compartida</h1>
+        <p class="hero-subtitle">Lucia & Emilio</p>
+        <p class="hero-desc">Compartí tus fotos y videos de la fiesta para revivir esos momentos únicos con todos.</p>
+      </div>
+
+      <!-- Barra de Acciones Principales -->
+      <div class="fotos-action-bar">
+        <button id="open-upload-btn" class="btn primary-btn upload-btn">
+          📸 Subir Fotos / Videos
+        </button>
+      </div>
+    </section>
+
+    <!-- Indicador de filtro / estado Admin -->
+    <div id="admin-banner" class="admin-banner hidden">
+      <span>Modo Administrador Activo</span>
+      <div class="admin-filter-tabs">
+        <button id="tab-approved" class="tab-btn active">Aprobadas</button>
+        <button id="tab-pending" class="tab-btn">Pendientes <span id="pending-count" class="badge">0</span></button>
+      </div>
+      <button id="logout-admin-btn" class="btn-link">Salir</button>
+    </div>
+
+    <!-- Mosaico / Grilla de Fotos -->
+    <section class="fotos-grid-container">
+      <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Cargando recuerdos...</p>
+      </div>
+
+      <div id="photos-grid" class="photos-grid"></div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <p>📷 ¡Todavía no hay fotos publicadas!</p>
+        <p class="sub">Sé el primero en compartir un recuerdo de esta gran noche.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE SUBIDA DE FOTOS -->
+  <div id="upload-modal" class="modal-overlay hidden">
+    <div class="modal-card golden-frame">
+      <div class="frame-corners"></div>
+      <button id="close-upload-modal" class="close-modal-btn">&times;</button>
+
+      <h2 class="section-title">Subir Recuerdos</h2>
+      <p class="modal-sub">Compartí tus mejores recuerdos de la noche</p>
+
+      <form id="upload-form" class="upload-form">
+        <!-- Zona de selección de archivos múltiples -->
+        <div class="file-drop-zone" id="file-drop-zone">
+          <input type="file" id="photo-input" accept="image/*,video/*" multiple>
+          <div class="drop-zone-content">
+            <span class="drop-icon">📷</span>
+            <p><strong>Haz clic aquí</strong> o arrastrá tus fotos</p>
+            <p class="drop-hint">Podés seleccionar varias a la vez</p>
+          </div>
+        </div>
+
+        <!-- Grilla de vista previa de múltiples fotos -->
+        <div id="preview-container" class="preview-container hidden">
+          <div id="preview-grid" class="preview-grid"></div>
+          <button type="button" id="remove-preview-btn" class="remove-preview-btn">&times; Cambiar fotos</button>
+        </div>
+
+        <div class="form-group">
+          <label for="uploader-name">Tu Nombre y Apellido <span class="required">*</span></label>
+          <input type="text" id="uploader-name" name="name" required placeholder="Ej: Sofía Gómez">
+        </div>
+
+        <div class="form-group">
+          <label for="uploader-comment">Mensaje o Dedicatoria <span class="optional">(Opcional)</span></label>
+          <textarea id="uploader-comment" name="comment" rows="2" placeholder="¡Felicidades a los novios!"></textarea>
+        </div>
+
+        <button type="submit" id="submit-upload-btn" class="btn primary-btn submit-btn">
+          Enviar
+        </button>
+
+        <p id="upload-status-msg" class="form-message hidden"></p>
+
+        <!-- Spinner Overlay de Subida -->
+        <div id="upload-spinner-overlay" class="upload-spinner-overlay hidden">
+          <div class="spinner"></div>
+          <p id="upload-progress-text">Procesando archivos...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL VISOR LIGHTBOX (PANTALLA COMPLETA) -->
+  <div id="lightbox-modal" class="modal-overlay hidden">
+    <div class="lightbox-content">
+
+      <!-- Barra superior: cerrar + info -->
+      <div class="lightbox-topbar">
+        <div class="lightbox-topbar-meta">
+          <p id="lightbox-author" class="author-name">Subida por Invitado</p>
+          <p id="lightbox-comment" class="author-comment"></p>
+        </div>
+        <div class="lightbox-topbar-actions">
+          <!-- Moderación en Lightbox (Solo Admin) -->
+          <div id="lightbox-admin-actions" class="lightbox-admin-actions hidden">
+            <button id="lightbox-approve-btn" class="btn-admin-action btn-approve">✅ Aprobar</button>
+            <button id="lightbox-reject-btn" class="btn-admin-action btn-reject">🗑️ Rechazar</button>
+          </div>
+          <div id="lightbox-moderated-badge" class="lightbox-moderated-badge hidden">
+            ✅ Aprobada
+          </div>
+          <button id="close-lightbox" class="lightbox-close-btn" aria-label="Cerrar">&times;</button>
+        </div>
+      </div>
+
+      <!-- Área del media -->
+      <div class="lightbox-media-area">
+        <button id="prev-lightbox-btn" class="nav-lightbox-btn prev-btn">‹</button>
+        <button id="next-lightbox-btn" class="nav-lightbox-btn next-btn">›</button>
+
+        <div class="lightbox-img-wrapper" id="lightbox-media-wrapper">
+          <img id="lightbox-img" src="" alt="Foto" />
+          <video id="lightbox-video" src="" controls class="hidden" playsinline preload="metadata"></video>
+          <iframe id="lightbox-iframe" src="" class="hidden" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          <button id="lightbox-play-pause" class="video-control-btn hidden" aria-label="Play/Pause">▶️</button>
+        </div>
+      </div>
+
+      <!-- Acciones inferiores -->
+      <div class="lightbox-bottombar">
+        <a id="lightbox-download" href="" download target="_blank" class="btn secondary-btn download-btn">⬇️
+          Descargar</a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- MODAL DE CLAVE ADMIN / MODERACIÓN -->
+  <div id="admin-modal" class="modal-overlay hidden">
+    <div class="modal-card golden-frame small-modal">
+      <div class="frame-corners"></div>
+      <button id="close-admin-modal" class="close-modal-btn">&times;</button>
+
+      <h2 class="section-title">Moderación</h2>
+      <p class="modal-sub">Ingresá la clave de acceso</p>
+
+      <form id="admin-form" class="upload-form">
+        <div class="form-group">
+          <label for="admin-key-input">Clave Secreta</label>
+          <input type="password" id="admin-key-input" required placeholder="Ingresá la clave">
+        </div>
+
+        <button type="submit" class="btn primary-btn submit-btn">Ingresar</button>
+        <p id="admin-error-msg" class="form-message error hidden">Clave incorrecta</p>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/src/fotos.js"></script>
+</body>
+
+</html>

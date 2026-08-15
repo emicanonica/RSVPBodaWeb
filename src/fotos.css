@@ -1,0 +1,844 @@
+@import './style.css';
+
+/* =======================================
+   ESTILOS PÁGINA GALERÍA COMPARTIDA (FOTOS)
+   ======================================= */
+body.fotos-page {
+  background-color: #FAF8F5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header de Navegación */
+.fotos-header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.back-link {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.back-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-trigger-btn,
+.icon-btn {
+  background: none;
+  border: 1px solid rgba(112, 130, 56, 0.3);
+  color: #666;
+  padding: 0.3rem 0.8rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn {
+  font-size: 1.1rem;
+  padding: 0.2rem 0.6rem;
+  font-weight: bold;
+}
+
+.admin-trigger-btn:hover,
+.icon-btn:hover {
+  background-color: rgba(112, 130, 56, 0.1);
+  color: var(--primary-color);
+}
+
+/* Main Container */
+.fotos-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+  flex: 1;
+}
+
+/* Hero Section */
+.fotos-hero {
+  text-align: center;
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.fotos-title-frame {
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+  padding: 2.5rem 2rem;
+}
+
+.hero-desc {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 1rem;
+}
+
+.fotos-action-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.upload-btn {
+  padding: 0.9rem 2.2rem;
+  font-size: 1.05rem;
+  box-shadow: 0 6px 18px rgba(112, 130, 56, 0.3);
+}
+
+/* Banner Modo Administrador */
+.admin-banner {
+  background-color: rgba(197, 160, 89, 0.15);
+  border: 1px solid var(--accent-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: #5c4412;
+}
+
+.admin-filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab-btn {
+  background: white;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  padding: 0.3rem 0.8rem;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.badge {
+  background-color: #d9534f;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+  margin-left: 0.3rem;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Loading & Empty State */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(112, 130, 56, 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #777;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+}
+
+.empty-state .sub {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #999;
+}
+
+/* Grilla de Fotos (Photos Grid) */
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Tarjeta de Foto Individual */
+.photo-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(197, 160, 89, 0.3);
+  background-color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  aspect-ratio: 3 / 4;
+}
+
+.photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(112, 130, 56, 0.25);
+  border-color: var(--primary-color);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Tarjeta de video: thumbnail con botón play encima */
+.video-thumb-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-thumb-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease;
+}
+
+.photo-card:hover .video-play-overlay {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.photo-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 0.8rem 0.6rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.photo-author {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  margin-bottom: 0.2rem;
+}
+
+.photo-comment {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botones de Moderación en Tarjeta */
+.admin-card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 5;
+}
+
+.btn-admin-action {
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.btn-admin-action:hover {
+  transform: scale(1.08);
+}
+
+.btn-approve {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-reject {
+  background-color: #c62828;
+  color: white;
+}
+
+/* Modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-card {
+  background-color: var(--bg-color);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.5rem 2rem 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.small-modal {
+  max-width: 360px;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.close-modal-btn:hover {
+  color: #1a1a1a;
+}
+
+.close-modal-btn.light {
+  color: white;
+}
+
+.modal-sub {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulario de Subida */
+.upload-form .form-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.upload-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-color);
+}
+
+.upload-form .required {
+  color: #c62828;
+}
+
+.upload-form .optional {
+  font-weight: normal;
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.upload-form input[type="text"],
+.upload-form input[type="password"],
+.upload-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  background-color: white;
+  transition: border-color 0.3s;
+}
+
+.upload-form input:focus,
+.upload-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(112, 130, 56, 0.15);
+}
+
+.file-drop-zone {
+  border: 2px dashed rgba(197, 160, 89, 0.6);
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  text-align: center;
+  background-color: rgba(253, 251, 247, 0.8);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  margin-bottom: 1.2rem;
+}
+
+.file-drop-zone:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(112, 130, 56, 0.05);
+}
+
+.file-drop-zone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.drop-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.preview-container {
+  position: relative;
+  margin-bottom: 1.2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #faf9f6;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.preview-grid {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.8rem;
+  scrollbar-width: thin;
+}
+
+.preview-thumb {
+  flex: 0 0 auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #eee;
+}
+
+.preview-thumb img,
+.preview-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-preview-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* ============================================================
+   LIGHTBOX — Layout: topbar / media-area / bottombar
+   ============================================================ */
+
+/* El overlay ya es posición fixed cubre todo */
+#lightbox-modal.modal-overlay {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.96);
+}
+
+.lightbox-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Top bar ───────────────────────────────────────────────── */
+.lightbox-topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 20;
+}
+
+.lightbox-topbar-meta {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.lightbox-topbar-meta .author-name {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.lightbox-topbar-meta .author-comment {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0.1rem 0 0;
+}
+
+.lightbox-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+/* ── Botón cerrar (en la topbar) ───────────────────────────── */
+.lightbox-close-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.lightbox-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Área del media (flex-grow) ────────────────────────────── */
+.lightbox-media-area {
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+  /* necesario para que flex shrink funcione */
+}
+
+.lightbox-img-wrapper {
+  width: 120%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding-top: 100px;
+}
+
+/* Imagen */
+#lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Video nativo */
+.lightbox-img-wrapper video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Iframe de Drive */
+#lightbox-iframe {
+  /* Usamos absolute para que el escalado no pelee con el flexbox del wrapper */
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* 1. Le mentimos al iframe dándole un 25% más de espacio virtual */
+  width: 125%;
+  height: 125%;
+
+  /* 2. Lo achicamos visualmente al 80% para que vuelva a ocupar exactamente el 100% real de la pantalla (125 * 0.8 = 100) */
+  transform: scale(0.8);
+  transform-origin: top left;
+  /* Clave para que no se corra de lugar al achicarse */
+
+  border: none;
+  display: block;
+  background: #000;
+}
+
+#lightbox-iframe.hidden {
+  display: none;
+}
+
+/* ── Bottom bar ────────────────────────────────────────────── */
+.lightbox-bottombar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.download-btn {
+  font-size: 0.85rem;
+  padding: 0.45rem 1.1rem;
+}
+
+.open-new-btn {
+  font-size: 0.85rem;
+  padding: 0.45rem 1.1rem;
+}
+
+/* ── Botones nav anterior/siguiente ────────────────────────── */
+.nav-lightbox-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.18);
+  color: white;
+  border: none;
+  font-size: 2.5rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 20;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s;
+}
+
+.nav-lightbox-btn:hover {
+  background-color: rgba(255, 255, 255, 0.38);
+}
+
+.prev-btn {
+  left: 12px;
+}
+
+.next-btn {
+  right: 12px;
+}
+
+/* ── Botón play/pause custom (cuando sea nativo) ───────────── */
+.video-control-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.4rem 0.8rem;
+  z-index: 10;
+}
+
+.video-control-btn.hidden {
+  display: none;
+}
+
+/* ── Admin acciones en topbar ──────────────────────────────── */
+.lightbox-admin-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lightbox-moderated-badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Responsive mobile ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .nav-lightbox-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.6rem;
+  }
+
+  .prev-btn {
+    left: 6px;
+  }
+
+  .next-btn {
+    right: 6px;
+  }
+
+  .lightbox-topbar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .lightbox-topbar-meta .author-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* ── Upload Spinner Overlay ────────────────────────────────── */
+.upload-spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border-radius: 8px;
+}
+
+.upload-spinner-overlay p {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* ── Responsive: grilla, modales y admin (mobile) ──────────── */
+@media (max-width: 600px) {
+  .photos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .fotos-title-frame {
+    padding: 1.8rem 1rem;
+  }
+
+  .modal-card {
+    padding: 2rem 1.2rem 1.5rem;
+  }
+
+  .admin-banner {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
+  .admin-card-actions {
+    flex-direction: column;
+    right: 4px;
+    top: 4px;
+    gap: 0.2rem;
+  }
+
+  .btn-admin-action {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.7rem;
+  }
+}

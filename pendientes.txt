@@ -1,0 +1,10 @@
+GALERIA>
+  - agregar imagenes posta
+
+SUBIDA DE FOTOS
+ - ARREGLOS
+    - mejorar frame de reproduccion de videos
+
+
+ - Misiones
+  - agregar ruleta con misiones de fotos a sacar a las personas de la boda

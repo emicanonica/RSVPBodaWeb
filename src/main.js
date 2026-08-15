@@ -188,4 +188,157 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // 6. Lógica de Galería de Imágenes (Infinita, Sin Textos, Full-Width, Centrado al Clic y Escala Central)
+  const galleryContainer = document.querySelector('.gallery-container');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const SET_SIZE = 5; // Número de imágenes únicas por set
+
+  if (galleryContainer && galleryItems.length >= SET_SIZE * 2) {
+    let isMouseDown = false;
+    let startX, scrollLeftPos;
+    let autoScrollInterval = null;
+    let isUserInteracting = false;
+    let interactionTimeout = null;
+    let isSmoothScrolling = false;
+
+    // Calcular el ancho exacto de 1 set completo de imágenes
+    function getSingleSetWidth() {
+      if (galleryItems[SET_SIZE] && galleryItems[0]) {
+        return galleryItems[SET_SIZE].offsetLeft - galleryItems[0].offsetLeft;
+      }
+      return 0;
+    }
+
+    // Comprobar y mantener el bucle infinito de forma invisible e ininterrumpida
+    function checkInfiniteLoop() {
+      const setWidth = getSingleSetWidth();
+      if (!setWidth) return;
+
+      if (galleryContainer.scrollLeft >= setWidth * 1.8) {
+        galleryContainer.scrollLeft -= setWidth;
+      } else if (galleryContainer.scrollLeft <= setWidth * 0.3) {
+        galleryContainer.scrollLeft += setWidth;
+      }
+    }
+
+    // Calcular y marcar cuál imagen está más cerca del centro del contenedor
+    function updateCenterImage() {
+      const containerRect = galleryContainer.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      let closestItem = null;
+      let minDistance = Infinity;
+
+      galleryItems.forEach(item => {
+        const itemRect = item.getBoundingClientRect();
+        const itemCenter = itemRect.left + itemRect.width / 2;
+        const distance = Math.abs(containerCenter - itemCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestItem = item;
+        }
+      });
+
+      galleryItems.forEach(item => {
+        if (item === closestItem) {
+          item.classList.add('is-center');
+        } else {
+          item.classList.remove('is-center');
+        }
+      });
+    }
+
+    // Centrar una imagen específica al hacer clic
+    function centerItem(item) {
+      isSmoothScrolling = true;
+      const containerWidth = galleryContainer.clientWidth;
+      const itemLeft = item.offsetLeft;
+      const itemWidth = item.clientWidth;
+
+      const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+
+      galleryContainer.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => {
+        isSmoothScrolling = false;
+      }, 500);
+    }
+
+    // Evento de clic en imágenes
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        centerItem(item);
+        handleUserInteraction();
+      });
+    });
+
+    // Evento Scroll (actualiza el centro y mantiene el bucle infinito)
+    galleryContainer.addEventListener('scroll', () => {
+      checkInfiniteLoop();
+      updateCenterImage();
+    });
+
+    // Arrastre con Mouse (Desktop)
+    galleryContainer.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      galleryContainer.classList.add('is-dragging');
+      startX = e.pageX - galleryContainer.offsetLeft;
+      scrollLeftPos = galleryContainer.scrollLeft;
+      handleUserInteraction();
+    });
+
+    galleryContainer.addEventListener('mouseleave', () => {
+      isMouseDown = false;
+      galleryContainer.classList.remove('is-dragging');
+    });
+
+    galleryContainer.addEventListener('mouseup', () => {
+      isMouseDown = false;
+      galleryContainer.classList.remove('is-dragging');
+    });
+
+    galleryContainer.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      e.preventDefault();
+      const x = e.pageX - galleryContainer.offsetLeft;
+      const walk = (x - startX) * 1.6;
+      galleryContainer.scrollLeft = scrollLeftPos - walk;
+    });
+
+    // Pausar auto-scroll tras interacción y reanudar 3.5s después
+    function handleUserInteraction() {
+      isUserInteracting = true;
+      clearTimeout(interactionTimeout);
+      interactionTimeout = setTimeout(() => {
+        isUserInteracting = false;
+      }, 3500);
+    }
+
+    galleryContainer.addEventListener('touchstart', handleUserInteraction, { passive: true });
+    galleryContainer.addEventListener('wheel', handleUserInteraction, { passive: true });
+
+    // Auto-scroll continuo leve de izquierda a derecha
+    function startAutoScroll() {
+      autoScrollInterval = setInterval(() => {
+        if (!isUserInteracting && !isMouseDown && !isSmoothScrolling) {
+          galleryContainer.scrollLeft += 0.8;
+        }
+      }, 20);
+    }
+
+    // Inicializar centrado en el segundo set y arrancar el auto-scroll
+    setTimeout(() => {
+      const initialItem = galleryItems[SET_SIZE + 1] || galleryItems[1];
+      if (initialItem) {
+        centerItem(initialItem);
+      }
+      updateCenterImage();
+      startAutoScroll();
+    }, 300);
+  }
 });
