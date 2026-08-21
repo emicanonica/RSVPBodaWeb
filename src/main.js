@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (galleryContainer && galleryItems.length >= SET_SIZE * 2) {
     let isMouseDown = false;
     let startX, scrollLeftPos;
+    let touchStartX, touchScrollLeftPos;
     let autoScrollInterval = null;
     let isUserInteracting = false;
     let interactionTimeout = null;
@@ -306,9 +307,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isMouseDown) return;
       e.preventDefault();
       const x = e.pageX - galleryContainer.offsetLeft;
-      const walk = (x - startX) * 1.6;
+      const walk = (x - startX) * 0.8; // reducido de 1.6 → 0.8 para menor sensibilidad
       galleryContainer.scrollLeft = scrollLeftPos - walk;
     });
+
+    // Arrastre táctil (Touch) con sensibilidad reducida
+    galleryContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].pageX;
+      touchScrollLeftPos = galleryContainer.scrollLeft;
+      handleUserInteraction();
+    }, { passive: true });
+
+    galleryContainer.addEventListener('touchmove', (e) => {
+      if (touchStartX === undefined) return;
+      const dx = touchStartX - e.touches[0].pageX;
+      galleryContainer.scrollLeft = touchScrollLeftPos + dx * 0.65; // factor < 1 amortigua el deslizamiento
+    }, { passive: true });
+
+    galleryContainer.addEventListener('touchend', () => {
+      touchStartX = undefined;
+    }, { passive: true });
 
     // Pausar auto-scroll tras interacción y reanudar 3.5s después
     function handleUserInteraction() {
@@ -319,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 3500);
     }
 
-    galleryContainer.addEventListener('touchstart', handleUserInteraction, { passive: true });
     galleryContainer.addEventListener('wheel', handleUserInteraction, { passive: true });
 
     // Auto-scroll continuo leve de izquierda a derecha
