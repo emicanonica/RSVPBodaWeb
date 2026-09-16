@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: luyemiboda
+    runtime: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /fotos
+        destination: /fotos.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
