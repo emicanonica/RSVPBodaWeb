@@ -5,8 +5,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        fotos: resolve(__dirname, 'fotos.html'),
+        main: resolve(import.meta.dirname, 'index.html'),
+        fotos: resolve(import.meta.dirname, 'fotos.html'),
       },
     },
   },
