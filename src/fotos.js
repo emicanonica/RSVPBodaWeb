@@ -789,11 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function openModal(modal) {
-    const wasHidden = modal.classList.contains('hidden');
     modal.classList.remove('hidden');
-    if (wasHidden) {
-      history.pushState({ modalOpen: true }, '');
-    }
   }
 
   function closeModal(modal) {
@@ -811,10 +807,6 @@ document.addEventListener('DOMContentLoaded', () => {
           renderGrid();
         }
       }
-
-      if (history.state && history.state.modalOpen) {
-        history.back();
-      }
     }
   }
 
@@ -824,11 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === 7. PREVENIR SALIDA ACCIDENTAL DE LA PÁGINA ===
-  window.addEventListener('beforeunload', (e) => {
-    e.preventDefault();
-    e.returnValue = ''; // Requerido por la mayoría de los navegadores modernos para mostrar el cartel
-  });
+
 
   // Inicializar carga de fotos
   loadPhotos();
