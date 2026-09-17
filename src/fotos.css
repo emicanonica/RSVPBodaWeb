@@ -343,6 +343,14 @@ body.fotos-page {
   padding: 1rem;
 }
 
+.hidden,
+.modal-overlay.hidden,
+#lightbox-modal.modal-overlay.hidden,
+#upload-modal.modal-overlay.hidden,
+#admin-modal.modal-overlay.hidden {
+  display: none !important;
+}
+
 .modal-card {
   background-color: var(--bg-color);
   max-width: 480px;
@@ -841,4 +849,13 @@ body.fotos-page {
     padding: 0.3rem 0.4rem;
     font-size: 0.7rem;
   }
+}
+
+/* Regla final infalible para elementos ocultos */
+.hidden,
+.modal-overlay.hidden,
+#lightbox-modal.modal-overlay.hidden,
+#upload-modal.modal-overlay.hidden,
+#admin-modal.modal-overlay.hidden {
+  display: none !important;
 }

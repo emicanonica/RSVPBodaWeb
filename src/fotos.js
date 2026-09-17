@@ -102,8 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
           // la clave es incorrecta — limpiarla
           if (adminKey) {
             localStorage.removeItem(LOCAL_STORAGE_ADMIN_KEY);
-            adminErrorMsg.classList.remove('hidden');
-            adminModal.classList.remove('hidden');
           }
         }
 
@@ -775,6 +773,17 @@ document.addEventListener('DOMContentLoaded', () => {
   openUploadBtn.addEventListener('click', () => openModal(uploadModal));
   closeUploadModal.addEventListener('click', () => closeModal(uploadModal));
   closeAdminModal.addEventListener('click', () => closeModal(adminModal));
+
+  // Cerrar modales al hacer clic en el fondo oscuro (backdrop)
+  [uploadModal, adminModal].forEach(modal => {
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(modal);
+        }
+      });
+    }
+  });
 
   if (reloadGalleryBtn) {
     reloadGalleryBtn.addEventListener('click', () => {
