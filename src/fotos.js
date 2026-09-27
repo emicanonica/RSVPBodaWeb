@@ -2,7 +2,7 @@ import './fotos.css';
 
 // === CONFIGURACIÓN Y SERVICIO BACKEND ===
 // URL pública del Web App de Google Apps Script (reemplazar por la del desplegado final)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIh-iC8n_i8Sl5fD9hZ0yaybw3ZHtONozVRBcC0OwoxOgwCNhGXIVOeFPjMaN8GLNBHw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYi8eKZ5DvyOU7IS6z7mleUqtZflvLn012PCWrvr9AN1jBebYDlq7JcDgoFAlAMdpIEQ/exec';
 const LOCAL_STORAGE_ADMIN_KEY = 'boda_admin_key';
 const LOCAL_STORAGE_GUEST_NAME = 'boda_guest_name';
 
@@ -297,8 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const files = [];
     rawFiles.forEach(file => {
-      if (file.type.startsWith('video/') && file.size > 50 * 1024 * 1024) {
-        alert(`El video "${file.name}" supera el límite de 50MB y no será subido.`);
+      if (file.type.startsWith('video/') && file.size > 100 * 1024 * 1024) {
+        alert(`El video "${file.name}" supera el límite de 100MB y no será subido.`);
       } else {
         files.push(file);
       }
@@ -427,16 +427,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (uploadSpinnerOverlay) uploadSpinnerOverlay.classList.remove('hidden'); // Mostrar spinner
 
     const total = selectedFiles.length;
-    let successCount = 0;
     let failCount = 0;
+    const uploadedItems = [];
 
+    // 1. Subir cada archivo a Cloudinary mostrando progreso
     for (let i = 0; i < total; i++) {
       const fileObj = selectedFiles[i];
       if (uploadProgressText) uploadProgressText.innerText = `Subiendo archivo ${i + 1} de ${total}...`;
       showUploadStatus(`Subiendo archivo ${i + 1} de ${total}...`, 'info');
 
       try {
-        // 1. Subir a Cloudinary
         const formData = new FormData();
         formData.append('file', fileObj.file);
         formData.append('upload_preset', 'Boda_Uploads');
@@ -452,30 +452,45 @@ document.addEventListener('DOMContentLoaded', () => {
           throw new Error(cloudinaryData.error?.message || 'Error en Cloudinary');
         }
 
-        // 2. Enviar metadatos a Google Apps Script
+        uploadedItems.push({
+          public_id: cloudinaryData.public_id,
+          secure_url: cloudinaryData.secure_url,
+          mimeType: fileObj.mime
+        });
+      } catch (err) {
+        console.error('Error al procesar archivo en Cloudinary:', err);
+        failCount++;
+      }
+    }
+
+    // 2. Registrar todos los archivos exitosos en Google Apps Script en un solo llamado BATCH
+    let successCount = 0;
+    if (uploadedItems.length > 0) {
+      if (uploadProgressText) uploadProgressText.innerText = 'Registrando en la galería...';
+      showUploadStatus('Registrando en la galería...', 'info');
+
+      try {
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
-            action: 'upload',
+            action: 'upload_batch',
             name: name,
             comment: comment,
-            public_id: cloudinaryData.public_id,
-            secure_url: cloudinaryData.secure_url,
-            mimeType: fileObj.mime
+            items: uploadedItems
           })
         });
 
         const result = await response.json();
         if (result.success) {
-          successCount++;
+          successCount = uploadedItems.length;
         } else {
-          failCount++;
-          console.error('Error guardando metadatos:', result.error);
+          console.error('Error guardando metadatos en batch:', result.error);
+          failCount += uploadedItems.length;
         }
       } catch (err) {
-        console.error('Error al procesar archivo:', err);
-        failCount++;
+        console.error('Error al contactar Google Apps Script:', err);
+        failCount += uploadedItems.length;
       }
     }
 

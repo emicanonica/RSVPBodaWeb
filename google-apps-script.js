@@ -60,7 +60,7 @@ function doPost(e) {
     const contents = JSON.parse(e.postData.contents);
     const action = contents.action;
 
-    if (action === 'upload') {
+    if (action === 'upload' || action === 'upload_batch') {
       return handleUpload(contents);
     } else if (action === 'moderate') {
       return handleModerate(contents);
@@ -75,26 +75,48 @@ function doPost(e) {
 }
 
 function handleUpload(contents) {
-  const { public_id, secure_url, mimeType, name, comment } = contents;
+  const { name, comment } = contents;
 
   if (!name || !name.trim()) {
     return createJsonResponse({ success: false, error: 'El nombre es obligatorio' });
   }
 
-  if (!public_id || !secure_url) {
-    return createJsonResponse({ success: false, error: 'Datos de archivo incompletos' });
+  // Soportar tanto envío en batch (array de items) como archivo individual (retrocompatibilidad)
+  let items = contents.items || [];
+  if (!items.length && contents.public_id && contents.secure_url) {
+    items = [{
+      public_id: contents.public_id,
+      secure_url: contents.secure_url,
+      mimeType: contents.mimeType || ''
+    }];
   }
 
-  // Registrar metadatos en la planilla Google Sheet
+  if (!items.length) {
+    return createJsonResponse({ success: false, error: 'No se recibieron archivos válidos para registrar' });
+  }
+
+  // Registrar metadatos en la planilla Google Sheet en una sola operación atómica (batch)
   const sheet = getOrCreateSheet();
   const timestamp = new Date().toISOString();
-  
-  // Guardamos: [ID Archivo (public_id), URL Directa (secure_url), Nombre, Comentario, Fecha, Estado, MimeType]
-  sheet.appendRow([public_id, secure_url, name.trim(), comment || '', timestamp, 'pendiente', mimeType || '']);
+
+  // Estructura de cada fila: [ID Archivo (public_id), URL Directa (secure_url), Nombre, Comentario, Fecha, Estado, MimeType]
+  const rows = items.map(item => [
+    item.public_id,
+    item.secure_url,
+    name.trim(),
+    comment || '',
+    timestamp,
+    'pendiente',
+    item.mimeType || ''
+  ]);
+
+  const startRow = sheet.getLastRow() + 1;
+  sheet.getRange(startRow, 1, rows.length, 7).setValues(rows);
 
   return createJsonResponse({
     success: true,
-    message: 'Foto enviada con éxito. Estará visible tras la aprobación.'
+    count: rows.length,
+    message: `${rows.length} archivo(s) registrado(s) con éxito. Estarán visibles tras la aprobación.`
   });
 }
 
