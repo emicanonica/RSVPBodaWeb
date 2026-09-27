@@ -137,10 +137,30 @@ function handleModerate(contents) {
   // Fila en la planilla (Columna 6 es Estado)
   sheet.getRange(row, 6).setValue(newStatus);
 
-  // Ya no eliminamos el archivo en Drive porque ahora está en Cloudinary.
-  // Simplemente quedará con estado 'rechazada' en la planilla y no se mostrará.
-
   return createJsonResponse({ success: true, newStatus: newStatus });
+}
+
+function handleDelete(contents) {
+  const { key, row } = contents;
+
+  if (key !== SECRET_KEY) {
+    return createJsonResponse({ success: false, error: 'Clave secreta incorrecta' });
+  }
+
+  if (!row || row < 2) {
+    return createJsonResponse({ success: false, error: 'Número de fila no válido' });
+  }
+
+  const sheet = getOrCreateSheet();
+  const lastRow = sheet.getLastRow();
+  if (row > lastRow) {
+    return createJsonResponse({ success: false, error: 'La fila no existe' });
+  }
+
+  // Eliminar la fila de la foto de la planilla
+  sheet.deleteRow(row);
+
+  return createJsonResponse({ success: true, message: 'Foto eliminada correctamente' });
 }
 
 function getOrCreateSheet() {

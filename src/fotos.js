@@ -2,7 +2,7 @@ import './fotos.css';
 
 // === CONFIGURACIÓN Y SERVICIO BACKEND ===
 // URL pública del Web App de Google Apps Script (reemplazar por la del desplegado final)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYi8eKZ5DvyOU7IS6z7mleUqtZflvLn012PCWrvr9AN1jBebYDlq7JcDgoFAlAMdpIEQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqBU45u9jrvX8sTETj5FGIrHICwt2fIwuKrJRG2tgq3aadfMGA2BIsBgrWRj9deFQzXQ/exec';
 const LOCAL_STORAGE_ADMIN_KEY = 'boda_admin_key';
 const LOCAL_STORAGE_GUEST_NAME = 'boda_guest_name';
 
